@@ -9,7 +9,8 @@ int main()
    arr2[2] = 6;
    arr2[3] = 5;
 
-   int n = 8;
+   int n=8;
+   scanf("%d", &n);
    int arr3[n]; //variable size array can only be created not initialised
    arr3[0] = 100;
 
@@ -30,6 +31,8 @@ int main()
    for(int i=0; i<n; i++){
     printf("%d\n", arr3[i]);
    }
+
+   printf("sizeof arr3 : %d \n", sizeof(arr3));
 
    printf("add of arr2 : %d\n", &arr2);
    printf("add of arr2 : %d\n", &arr2[0]);
