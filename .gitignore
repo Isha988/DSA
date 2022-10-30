@@ -4,3 +4,4 @@
 *.layout
 *.depend
 *.cbp
+*/.vscode

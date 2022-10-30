@@ -211,15 +211,180 @@ int isSorted(struct Array arr){
     return 1;
 }
 
-int Rearrange(){
+int Rearrange(struct Array* ptr){
+    int i=0;
+    int j= ptr->length -1;
+
+    while(i < j){
+        while(ptr->A[i] < 0) i++;
+        while(ptr->A[j] > 0) j--;
+
+        if(i<j)
+         Swap(&ptr->A[i], &ptr->A[j]);
+    }
+}
+
+struct Array Merge(struct Array arr1, struct Array arr2){
+    struct Array arr3;
+
+    int i = 0, j=0, k=0 ;
+
+    while(i < arr1.length && j <arr2.length){
+        if(arr1.A[i] < arr2.A[j])
+            arr3.A[k++] = arr1.A[i++];
+        else 
+           arr3.A[k++] = arr2.A[j++];    
+    }
+
+    for(; i< arr1.length; i++){
+        arr3.A[k++] = arr1.A[i];
+    }
+
+    for(; j< arr2.length; j++){
+        arr3.A[k++] = arr2.A[j];
+    }
+
+    arr3.length = arr1.length + arr2.length;
+    arr3.size = arr1.size + arr2.size;
+
+    return arr3;
 
 }
+
+//set operations
+struct Array Union(struct Array arr1, struct Array arr2){
+    struct Array arr3;
+    int i, j;
+
+    for(i=0; i<arr1.length; i++){
+        arr3.A[i] = arr1.A[i];
+    }
+
+    for(j=0; j<arr2.length; j++){
+        if(LinearSearch(arr1, arr2.A[j]) == -1 )
+            arr3.A[i++] = arr2.A[j];
+    }
+
+    arr3.length = i;
+    arr3.size = arr1.size +arr2.size;
+
+    return arr3;
+}
+
+//union for sorted set
+struct Array Union2(struct Array arr1, struct Array arr2){
+    struct Array arr3;
+    int i, j, k;
+    i=j=k=0;
+
+    while(i < arr1.length && j <arr2.length){
+        if(arr1.A[i] < arr2.A[j])
+            arr3.A[k++] = arr1.A[i++];
+        else if(arr2.A[j] < arr1.A[i])
+            arr3.A[k++] = arr2.A[j++];
+        else{
+            arr3.A[k++] = arr1.A[i];
+            i++; j++;
+        }
+    }
+
+    for(; i< arr1.length; i++){
+        arr3.A[k++] = arr1.A[i];
+    }
+
+    for(; j< arr2.length; j++){
+        arr3.A[k++] = arr2.A[j];
+    }
+
+    arr3.length = k;
+    arr3.size = arr1.size + arr2.size;
+
+    return arr3;
+}
+
+struct Array Intersection(struct Array arr1, struct Array arr2){
+    struct Array arr3;
+    int i, k=0;
+    for(i=0; i < arr1.length; i++)
+        if(LinearSearch(arr2, arr1.A[i] ) != -1)
+            arr3.A[k++] = arr1.A[i];
+    
+    arr3.length = k;
+    arr3.size = 20; //minimum of arr1.size and arr2.size
+
+    return arr3;
+}
+
+//intersection for sorted array
+struct Array Intersection2(struct Array arr1, struct Array arr2){
+    struct Array arr3;
+    int i, j, k;
+    i=j=k=0;
+
+    while(i<arr1.length && j < arr2.length){
+        if (arr1.A[i] < arr2.A[j])
+            i++;
+        else if (arr1.A[i] > arr2.A[j])
+            j++;
+        else{
+            arr3.A[k++] = arr1.A[i];
+            i++;
+            j++;
+        }   
+    }
+
+    arr3.length = k;
+    arr3.size = 20; //minimum of arr1.size and arr2.size
+    return arr3;
+}
+
+struct Array Difference(struct Array arr1, struct Array arr2){
+    struct Array arr3;
+    int i, k=0;
+    for(i=0; i < arr1.length; i++)
+        if(LinearSearch(arr2, arr1.A[i] ) == -1)
+            arr3.A[k++] = arr1.A[i];
+    
+    arr3.length = k;
+    arr3.size = 20;//max of arr1.size and arr2.size
+
+    return arr3;
+}
+
+//difference for sorted array
+struct Array Difference2(struct Array arr1, struct Array arr2){
+    struct Array arr3;
+    int i, j, k;
+    i=j=k=0;
+
+    while(i<arr1.length && j < arr2.length){
+        if(arr1.A[i] < arr2.A[j])
+            arr3.A[k++] = arr1.A[i++];
+        else if(arr1.A[i] > arr2.A[j])
+            j++;
+        else{
+            i++;
+            j++;
+        }
+    }
+
+    for(; i<arr1.length; i++)
+        arr3.A[k++] = arr1.A[i];
+    
+    arr3.length = k;
+    arr3.size = 20;//max of arr1.size and arr2.size
+
+    return arr3;
+}
+
 int main()
 {
-    struct Array arr = {{2, 5, 7, 9, 23, 33, 38, 42, 45, 56}, 20, 10};
-    InsertSort(&arr, 24);
-
-    Display(arr);
+    struct Array arr1 = {{3, 8, 16, 20, 25, 27}, 10, 6};
+    struct Array arr2 = {{4, 8, 16, 22, 25}, 10, 5};
+   
+    struct Array arr3 = Difference2(arr1, arr2);
+    printf("length : %d \n", arr3.length);
+    Display(arr3);
 
    return 0;
 }
