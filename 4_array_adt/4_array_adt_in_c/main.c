@@ -375,6 +375,7 @@ struct Array Difference2(struct Array arr1, struct Array arr2){
     arr3.size = 20;//max of arr1.size and arr2.size
 
     return arr3;
+
 }
 
 int main()

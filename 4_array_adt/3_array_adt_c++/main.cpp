@@ -14,7 +14,6 @@ public:
         size = s;
         length = sizeof(a)/sizeof(int);
     }
-
 };
 
 
